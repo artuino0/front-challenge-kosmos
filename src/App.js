@@ -70,7 +70,7 @@ const App = () => {
         id="parent"
         style={{
           position: "relative",
-          background: "black",
+          backgroundColor: "rgba(0, 0, 0, .8)",
           height: "80vh",
           width: "80vw",
           borderRadius: "10px",
