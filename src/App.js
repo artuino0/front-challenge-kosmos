@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Component from "./components/component";
+import MovableItem from "./components/MovableItem";
 
 const App = () => {
   const [moveableComponents, setMoveableComponents] = useState([]);
@@ -21,6 +21,11 @@ const App = () => {
         updateEnd: true,
       },
     ]);
+  };
+
+  const removeMovable = () => {
+    const updatedMoveables = moveableComponents.filter((component) => component.id !== selected);
+    setMoveableComponents(updatedMoveables);
   };
 
   const updateMoveable = (id, newComponent, updateEnd = false) => {
@@ -57,6 +62,7 @@ const App = () => {
   return (
     <main style={{ height: "100vh", width: "100vw" }}>
       <button onClick={addMoveable}>Add Moveable1</button>
+      <button onClick={removeMovable}>Remove Moveable</button>
       <div
         id="parent"
         style={{
@@ -67,7 +73,7 @@ const App = () => {
         }}
       >
         {moveableComponents.map((item, index) => (
-          <Component {...item} key={index} updateMoveable={updateMoveable} handleResizeStart={handleResizeStart} setSelected={setSelected} isSelected={selected === item.id} />
+          <MovableItem {...item} key={index} updateMoveable={updateMoveable} handleResizeStart={handleResizeStart} setSelected={setSelected} isSelected={selected === item.id} />
         ))}
       </div>
     </main>

@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Moveable from "react-moveable";
 
-const Component = ({ updateMoveable, top, left, width, height, index, color, id, setSelected, isSelected = false, updateEnd }) => {
+const MovableItem = ({ updateMoveable, top, left, width, height, index, color, id, setSelected, isSelected = false, updateEnd }) => {
   // eslint-disable-next-line no-undef
   const ref = useRef();
 
@@ -132,4 +132,4 @@ const Component = ({ updateMoveable, top, left, width, height, index, color, id,
   );
 };
 
-export default Component;
+export default MovableItem;
