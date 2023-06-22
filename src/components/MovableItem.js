@@ -2,10 +2,7 @@ import { useRef, useState } from "react";
 import Moveable from "react-moveable";
 
 const MovableItem = ({ updateMoveable, top, left, width, height, index, color, id, image, setSelected, isSelected = false }) => {
-  // eslint-disable-next-line no-undef
   const targetRef = useRef();
-
-  // eslint-disable-next-line no-undef
   const [nodoReferencia, setNodoReferencia] = useState({
     top,
     left,
@@ -21,7 +18,6 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
   let parentBounds = parent?.getBoundingClientRect();
 
   const onResize = async (e) => {
-    // ACTUALIZAR ALTO Y ANCHO
     let newWidth = e.width;
     let newHeight = e.height;
 
@@ -39,16 +35,15 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
       color,
       image,
     });
-
-    // ACTUALIZAR NODO REFERENCIA
     const beforeTranslate = e.drag.beforeTranslate;
-
-    targetRef.current.style.width = `${e.width}px`;
-    targetRef.current.style.height = `${e.height}px`;
 
     let translateX = beforeTranslate[0];
     let translateY = beforeTranslate[1];
+
+    targetRef.current.style.width = `${e.width}px`;
+    targetRef.current.style.height = `${e.height}px`;
     targetRef.current.style.transform = `translate(${translateX}px, ${translateY}px)`;
+
     setNodoReferencia({
       ...nodoReferencia,
       translateX,
@@ -72,8 +67,6 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
       true
     );
   };
-
-  const onDragEnd = (e) => {};
 
   return (
     <>
