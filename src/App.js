@@ -90,7 +90,7 @@ const App = () => {
         ref={parentContenedor}
       >
         {moveableComponents.map((item, index) => (
-          <MovableItem {...item} parentContenedor={parentContenedor} key={index} updateMoveable={updateMoveable} handleResizeStart={handleResizeStart} setSelected={setSelected} isSelected={selected === item.id} />
+          <MovableItem {...item} parentContenedor={parentContenedor} key={index} updateMoveable={updateMoveable} setSelected={setSelected} isSelected={selected === item.id} />
         ))}
       </div>
     </main>

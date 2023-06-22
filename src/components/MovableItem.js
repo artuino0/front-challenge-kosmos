@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Moveable from "react-moveable";
 
-const MovableItem = ({ updateMoveable, top, left, width, height, index, color, id, image, setSelected, parentContenedor, isSelected = false, updateEnd }) => {
+const MovableItem = ({ updateMoveable, top, left, width, height, index, color, id, image, setSelected, isSelected = false }) => {
   // eslint-disable-next-line no-undef
   const targetRef = useRef();
 
@@ -25,8 +25,8 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
     let newWidth = e.width;
     let newHeight = e.height;
 
-    const positionMaxTop = top + newHeight;
-    const positionMaxLeft = left + newWidth;
+    const positionMaxTop = top + e.drag.beforeTranslate[1] + newHeight;
+    const positionMaxLeft = left + e.drag.beforeTranslate[0] + newWidth;
 
     if (positionMaxTop > parentBounds?.height) newHeight = parentBounds?.height - top;
     if (positionMaxLeft > parentBounds?.width) newWidth = parentBounds?.width - left;
@@ -48,9 +48,7 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
 
     let translateX = beforeTranslate[0];
     let translateY = beforeTranslate[1];
-
     targetRef.current.style.transform = `translate(${translateX}px, ${translateY}px)`;
-
     setNodoReferencia({
       ...nodoReferencia,
       translateX,
@@ -61,35 +59,21 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
   };
 
   const onResizeEnd = async (e) => {
-    let newWidth = e.lastEvent?.width;
-    let newHeight = e.lastEvent?.height;
-
-    const positionMaxTop = top + newHeight;
-    const positionMaxLeft = left + newWidth;
-
-    if (positionMaxTop > parentBounds?.height) newHeight = parentBounds?.height - top;
-    if (positionMaxLeft > parentBounds?.width) newWidth = parentBounds?.width - left;
-
-    const { lastEvent } = e;
-    const { drag } = lastEvent;
-    const { beforeTranslate } = drag;
-
-    const absoluteTop = top + beforeTranslate[1];
-    const absoluteLeft = left + beforeTranslate[0];
-
     updateMoveable(
       id,
       {
-        top: absoluteTop,
-        left: absoluteLeft,
-        width: newWidth,
-        height: newHeight,
+        top: top,
+        left: left,
+        width: width,
+        height: height,
         color,
         image,
       },
       true
     );
   };
+
+  const onDragEnd = (e) => {};
 
   return (
     <>
