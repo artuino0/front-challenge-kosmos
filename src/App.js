@@ -60,7 +60,7 @@ const App = () => {
             Add Moveable
           </button>
         ) : null}
-        {moveableComponents.length != 0 ? (
+        {moveableComponents.length !== 0 ? (
           <button onClick={removeMovable} style={{ padding: "10px 30px", backgroundColor: "#0099cc", color: "#ffffff", border: "1px solid #333399", cursor: "pointer" }}>
             Remove Moveable
           </button>
