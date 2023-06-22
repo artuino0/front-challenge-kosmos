@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, createRef } from "react";
 import MovableItem from "./components/MovableItem";
 
 const App = () => {
   const [moveableComponents, setMoveableComponents] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [photos, setPhotos] = useState();
+  const [isAddEnabled, setIsAddEnabled] = useState(false);
+
+  const parentContenedor = createRef();
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/photos")
+      .then((response) => response.json())
+      .then((data) => {
+        setPhotos(data);
+      })
+      .finally(() => {
+        setIsAddEnabled(true);
+      });
+  }, []);
 
   const addMoveable = () => {
     // Create a new moveable component and add it to the array
@@ -19,6 +34,7 @@ const App = () => {
         height: 100,
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
         updateEnd: true,
+        image: photos[Math.floor(Math.random() * photos.length)].url,
       },
     ]);
   };
@@ -61,8 +77,8 @@ const App = () => {
 
   return (
     <main style={{ height: "100vh", width: "100vw" }}>
-      <button onClick={addMoveable}>Add Moveable1</button>
-      <button onClick={removeMovable}>Remove Moveable</button>
+      {isAddEnabled ? <button onClick={addMoveable}>Add Moveable1</button> : null}
+      {moveableComponents.length != 0 ? <button onClick={removeMovable}>Remove Moveable</button> : null}
       <div
         id="parent"
         style={{
@@ -71,9 +87,10 @@ const App = () => {
           height: "80vh",
           width: "80vw",
         }}
+        ref={parentContenedor}
       >
         {moveableComponents.map((item, index) => (
-          <MovableItem {...item} key={index} updateMoveable={updateMoveable} handleResizeStart={handleResizeStart} setSelected={setSelected} isSelected={selected === item.id} />
+          <MovableItem {...item} parentContenedor={parentContenedor} key={index} updateMoveable={updateMoveable} handleResizeStart={handleResizeStart} setSelected={setSelected} isSelected={selected === item.id} />
         ))}
       </div>
     </main>

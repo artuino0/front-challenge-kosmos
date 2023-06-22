@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 import Moveable from "react-moveable";
 
-const MovableItem = ({ updateMoveable, top, left, width, height, index, color, id, setSelected, isSelected = false, updateEnd }) => {
+const MovableItem = ({ updateMoveable, top, left, width, height, index, color, id, image, setSelected, parentContenedor, isSelected = false, updateEnd }) => {
   // eslint-disable-next-line no-undef
-  const ref = useRef();
+  const targetRef = useRef();
 
   // eslint-disable-next-line no-undef
   const [nodoReferencia, setNodoReferencia] = useState({
@@ -14,6 +14,7 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
     index,
     color,
     id,
+    image,
   });
 
   let parent = document.getElementById("parent");
@@ -36,18 +37,19 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
       width: newWidth,
       height: newHeight,
       color,
+      image,
     });
 
     // ACTUALIZAR NODO REFERENCIA
     const beforeTranslate = e.drag.beforeTranslate;
 
-    ref.current.style.width = `${e.width}px`;
-    ref.current.style.height = `${e.height}px`;
+    targetRef.current.style.width = `${e.width}px`;
+    targetRef.current.style.height = `${e.height}px`;
 
     let translateX = beforeTranslate[0];
     let translateY = beforeTranslate[1];
 
-    ref.current.style.transform = `translate(${translateX}px, ${translateY}px)`;
+    targetRef.current.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
     setNodoReferencia({
       ...nodoReferencia,
@@ -83,6 +85,7 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
         width: newWidth,
         height: newHeight,
         color,
+        image,
       },
       true
     );
@@ -91,7 +94,7 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
   return (
     <>
       <div
-        ref={ref}
+        ref={targetRef}
         className="draggable"
         id={"component-" + id}
         style={{
@@ -101,12 +104,14 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
           width: width,
           height: height,
           background: color,
+          zIndex: isSelected ? 1 : "auto",
         }}
         onClick={() => setSelected(id)}
-      />
-
+      >
+        {image && <img src={image} alt="Component" style={{ width: "100%", height: "100%" }} />}
+      </div>
       <Moveable
-        target={isSelected && ref.current}
+        target={isSelected && targetRef.current}
         resizable
         draggable
         onDrag={(e) => {
@@ -116,6 +121,7 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
             width,
             height,
             color,
+            image,
           });
         }}
         onResize={onResize}
@@ -127,6 +133,8 @@ const MovableItem = ({ updateMoveable, top, left, width, height, index, color, i
         zoom={1}
         origin={false}
         padding={{ left: 0, top: 0, right: 0, bottom: 0 }}
+        snappable={true}
+        bounds={{ left: 0, top: 0, right: 0, bottom: 0, position: "css" }}
       />
     </>
   );
