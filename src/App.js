@@ -76,9 +76,19 @@ const App = () => {
   };
 
   return (
-    <main style={{ height: "100vh", width: "100vw" }}>
-      {isAddEnabled ? <button onClick={addMoveable}>Add Moveable1</button> : null}
-      {moveableComponents.length != 0 ? <button onClick={removeMovable}>Remove Moveable</button> : null}
+    <main style={{ height: "100vh", width: "100vw", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "1rem", backgroundImage: "url(https://w.wallhaven.cc/full/ex/wallhaven-ex9gwo.png)" }}>
+      <div style={{ display: "flex", gap: "3rem" }}>
+        {isAddEnabled ? (
+          <button onClick={addMoveable} style={{ padding: "10px 30px", backgroundColor: "#0099cc", color: "#ffffff", border: "1px solid #333399", cursor: "pointer" }}>
+            Add Moveable
+          </button>
+        ) : null}
+        {moveableComponents.length != 0 ? (
+          <button onClick={removeMovable} style={{ padding: "10px 30px", backgroundColor: "#0099cc", color: "#ffffff", border: "1px solid #333399", cursor: "pointer" }}>
+            Remove Moveable
+          </button>
+        ) : null}
+      </div>
       <div
         id="parent"
         style={{
@@ -86,6 +96,8 @@ const App = () => {
           background: "black",
           height: "80vh",
           width: "80vw",
+          borderRadius: "10px",
+          overflow: "hidden",
         }}
         ref={parentContenedor}
       >

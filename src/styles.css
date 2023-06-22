@@ -12,11 +12,6 @@ body {
   position: relative;
 }
 
-.main {
-  display: grid;
-  gap: 1em;
-}
-
 .button {
   display: flex;
   justify-content: center;
